@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
 
@@ -40,13 +41,9 @@
     <main>
         <section id="application-form">
             <div class="container">
-                <div class="section-header">
-                    <h2>Completá tu Aplicación</h2>
-                    <p>Este es el primer paso para llevar tu carrera al siguiente nivel. Revisaremos tu perfil y te contactaremos en menos de 24 horas.</p>
-                </div>
-
-                <div class="form-container">
-                    <form action="#" method="POST">
+               
+                <div class="form-container" data-aos="fade-up" data-aos-delay="200">
+                    <form id="contact-form">
                         <div class="form-group">
                             <label for="name">Nombre Completo</label>
                             <input type="text" id="name" name="name" placeholder="Tu nombre y apellido" required>
@@ -91,23 +88,41 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-cta">
-                <h2>¿Lista para ser nuestra próxima historia de éxito?</h2>
-                <p>Solo aceptamos a un número limitado de creadoras en las que realmente creemos. ¿Serás una de ellas?</p>
-                <a href="aplicar.html" class="btn btn-primary btn-large">Aplicá ahora</a>
-            </div>
-            <div class="footer-bottom">
-                 <a href="index.html" class="logo">Luxe Vibe</a>
-                <p>&copy; 2025 Luxe Vibe | Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
     <script>
         feather.replace();
+    </script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        (function(){
+            emailjs.init('3bkxlvg4klx2DB5rd');
+        })();
+
+        window.onload = function() {
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true; // Deshabilitamos el botón para evitar doble envío
+                submitButton.textContent = 'Enviando...';
+
+                const serviceID = 'maty-only';
+                const templateID = 'template_y4w9qwr';
+
+                emailjs.sendForm(serviceID, templateID, this)
+                    .then(() => {
+                        // ¡CAMBIO CLAVE! Redirigimos a la página de gracias
+                        window.location.href = 'gracias.html';
+                    }, (err) => {
+                        submitButton.disabled = false; // Habilitamos el botón de nuevo si hay un error
+                        submitButton.textContent = 'Error al Enviar';
+                        alert('Ocurrió un error al enviar tu aplicación. Por favor, intentá de nuevo.\n\nError: ' + JSON.stringify(err));
+                    });
+            });
+        }
     </script>
 </body>
 </html>

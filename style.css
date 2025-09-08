@@ -94,11 +94,47 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     display: flex;
     align-items: center;
     text-align: center;
-    background: radial-gradient(circle, rgba(245,245,247,0.5) 0%, rgba(253,253,253,1) 40%); 
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
+    background-color: var(--background); /* Fondo blanco principal */
+    overflow: hidden; /* Evita que la imagen se salga */
 }
-#hero .hero-content { max-width: 900px; margin: 0 auto; padding-top: 5rem; }
-#hero h1 { font-size: 4.5rem; font-weight: 700; letter-spacing: -1.5px; }
-#hero .subtitle { font-size: 1.25rem; color: var(--text-secondary); margin: 1.5rem auto 2.5rem auto; }
+
+#hero::after {
+    content: '';
+    background-image: url('6.png'); /* Asegúrate que el nombre del archivo sea correcto */
+    background-repeat: no-repeat;
+    background-size: cover; /* Ajusta la imagen para que cubra todo el espacio */
+    background-position: center; /* Centra la imagen */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.06; 
+    z-index: 1;
+}
+
+#hero .hero-content { 
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding-top: 5rem; 
+    position: relative; /* Asegura que el contenido esté sobre la imagen */
+    z-index: 2;
+}
+
+#hero h1 { 
+    font-size: 4.5rem; 
+    font-weight: 700; 
+    letter-spacing: -1.5px;
+    color: var(--text-primary);
+}
+
+#hero .subtitle { 
+    font-size: 1.25rem; 
+    color: var(--text-secondary);
+    margin: 1.5rem auto 2.5rem auto; 
+}
+
 
 /* Comparación */
 #comparacion { background-color: var(--surface); }
@@ -121,7 +157,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .comparison-card li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; line-height: 1.6; }
 .comparison-card.dark li { color: white; }
 .comparison-card li svg { width: 24px; height: 24px; flex-shrink: 0; }
-.comparison-card.dark svg { color: white; }
 .comparison-card.light svg { color: var(--text-primary); }
 
 /* Servicios */
@@ -164,7 +199,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 5rem;
-    align-items: center; /* Esta línea centra la imagen y el texto verticalmente */
+    align-items: center;
 }
 
 .proceso-steps { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -208,7 +243,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .slider-viewport { overflow: hidden; }
 .slider-track { display: flex; transition: transform 0.5s ease-in-out; }
 .slide { min-width: calc(100% / 3); padding: 0 1rem; }
-/* --- ESTILOS ADICIONALES PARA IMÁGENES EN TESTIMONIOS --- */
+
 .testimonial-card {
     display: flex;
     flex-direction: column;
@@ -217,18 +252,18 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 
 .testimonial-image {
     width: 100%;
-    height: 300px; /* Altura fija para mantener la consistencia en el carrusel */
-    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
-    border-radius: var(--border-radius-medium); /* Esquinas redondeadas */
-    margin-bottom: 1.5rem; /* Espacio entre la imagen y el texto del testimonio */
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--border-radius-medium);
+    margin-bottom: 1.5rem;
 }
 
 .testimonial-card p {
-    flex-grow: 1; /* Permite que el texto ocupe el espacio disponible */
+    flex-grow: 1;
 }
 
 .author-info {
-    margin-top: auto; /* Empuja la información del autor hacia abajo */
+    margin-top: auto;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
 }
@@ -257,8 +292,28 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     padding-top: 10rem;
     padding-bottom: 7rem;
     background-color: var(--surface);
+    position: relative;
+    overflow: hidden;
 }
+
+#application-form::after {
+    content: '';
+    background-image: url('6.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.04;
+    z-index: 0;
+}
+
 .form-container {
+    position: relative;
+    z-index: 1;
     max-width: 700px;
     margin: 0 auto;
     padding: 3rem;
@@ -330,7 +385,9 @@ textarea {
     #hero h1 { font-size: 2.8rem; }
     #hero .subtitle { font-size: 1.1rem; }
     .nav-menu {
-        display: none; position: fixed;
+        /* display: none; <- ESTE ERA EL PROBLEMA */
+        display: block; /* <- ESTA ES LA SOLUCIÓN */
+        position: fixed;
         top: 0; right: -100%;
         width: 85%; height: 100vh;
         background-color: var(--background);
@@ -359,4 +416,54 @@ textarea {
     .footer-cta h2 { font-size: 2.5rem; }
     .service-header h3, .faq-question { font-size: 1.3rem; }
     .step-card h3 { font-size: 1.3rem; }
+}
+
+/* --- 7. ESTILOS PARA LA PÁGINA DE GRACIAS (CORREGIDO) --- */
+#thank-you {
+    min-height: calc(100vh - 80px); /* Ocupa toda la pantalla menos la altura del nav */
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    text-align: center; /* Centra el texto dentro del contenedor */
+    background-color: var(--background);
+    padding: 2rem 0;
+}
+
+.thank-you-content {
+    max-width: 600px;
+    margin: 0 auto; /* Asegura el centrado si el ancho es menor que el contenedor padre */
+}
+
+.thank-you-icon {
+    width: 80px;
+    height: 80px;
+    color: var(--primary-accent);
+    margin-bottom: 2rem;
+}
+
+#thank-you h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+#thank-you p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+}
+
+/* Ajustes responsivos para la página de gracias */
+@media (max-width: 768px) {
+    #thank-you h1 {
+        font-size: 2.5rem;
+    }
+
+    #thank-you p {
+        font-size: 1.1rem;
+    }
+
+    .thank-you-icon {
+        width: 60px;
+        height: 60px;
+    }
 }

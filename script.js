@@ -124,10 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     };
 
+    // --- 5. INITIALIZE AOS ---
+    // Initializes the AOS library to trigger animations on scroll.
+    const setupAOS = () => {
+        AOS.init({
+            duration: 1000,
+            once: true,
+            mirror: false,
+        });
+    };
+
     // --- INICIALIZACIÓN DE TODAS LAS FUNCIONES AL CARGAR EL CONTENIDO DEL DOM ---
     setupNavbarScroll();
     setupMobileMenu();
     setupAccordions('.service-item'); // Acordeón para la sección de servicios (exclusivo)
     setupAccordions('.faq-item');     // Acordeón para la sección de preguntas frecuentes (no exclusivo)
     setupTestimonialCarousel();
+    setupAOS();
 });
