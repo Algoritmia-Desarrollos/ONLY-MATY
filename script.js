@@ -1,151 +1,133 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. NAVBAR SCROLL & MOBILE MENU ---
-    const navbar = document.querySelector('.navbar');
-    const hamburger = document.querySelector('.hamburger-menu');
-    const navMenu = document.querySelector('.nav-menu');
+    // --- 1. NAVBAR SCROLL EFFECT ---
+    // Agrega una clase a la barra de navegación cuando se hace scroll para cambiar su estilo.
+    const setupNavbarScroll = () => {
+        const navbar = document.querySelector('.navbar');
+        if (!navbar) return; // Si no hay navbar, no hacemos nada.
+        
+        window.addEventListener('scroll', () => {
+            // Añade o quita la clase 'scrolled' dependiendo de la posición del scroll.
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    };
 
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    // --- 2. MOBILE MENU TOGGLE ---
+    // Maneja la apertura y cierre del menú de navegación en dispositivos móviles.
+    const setupMobileMenu = () => {
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        if (!hamburger || !navMenu) return; // Si no existen, no hacemos nada.
 
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+        // Abre/cierra el menú al hacer clic en el ícono de hamburguesa.
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Cierra el menú móvil si se hace clic en cualquier enlace dentro de él.
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    };
     
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+    // --- 3. ACCORDIONS (for Services and FAQ sections) ---
+    // Gestiona la funcionalidad de acordeón para elementos colapsables.
+    const setupAccordions = (selector) => {
+        const items = document.querySelectorAll(selector);
+        if (items.length === 0) return; // Si no hay elementos, no hacemos nada.
+
+        items.forEach(item => {
+            // El encabezado que activa el acordeón puede ser '.service-header' o '.faq-question'.
+            const header = item.querySelector('.service-header') || item.querySelector('.faq-question');
+            if (!header) return;
+
+            header.addEventListener('click', () => {
+                // Decide si solo un acordeón puede estar abierto a la vez (exclusivo, como Servicios)
+                // o si múltiples pueden estarlo (no exclusivo, como FAQ).
+                const isExclusive = selector === '.service-item';
+                
+                if (isExclusive) {
+                    const currentlyActive = document.querySelector(`${selector}.active`);
+                    // Si hay un acordeón activo y no es el que acabamos de clicar, lo cierra.
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                }
+                // Alterna la clase 'active' para abrir/cerrar el acordeón actual.
+                item.classList.toggle('active');
+            });
         });
-    });
+    };
 
+    // --- 4. TESTIMONIAL CAROUSEL ---
+    // Implementa un carrusel básico para la sección de testimonios.
+    const setupTestimonialCarousel = () => {
+        const carousel = document.querySelector('.testimonial-carousel');
+        if (!carousel) return; // Si no hay carrusel, no hacemos nada.
 
-    // --- 2. ACCORDION (SERVICIOS) ---
-    const serviceItems = document.querySelectorAll('.service-item');
-    serviceItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const currentlyActive = document.querySelector('.service-item.active');
-            if (currentlyActive && currentlyActive !== item) {
-                currentlyActive.classList.remove('active');
-            }
-            item.classList.toggle('active');
-        });
-    });
-    
-
-    // --- 3. ACCORDION (FAQ) ---
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            const currentlyActive = document.querySelector('.faq-item.active');
-            if (currentlyActive && currentlyActive !== item) {
-                currentlyActive.classList.remove('active');
-            }
-            item.classList.toggle('active');
-        });
-    });
-
-
-    // --- 4. CAROUSEL DE TESTIMONIOS ---
-    const carousel = document.querySelector('.testimonial-carousel');
-    if (carousel) {
         const track = carousel.querySelector('.slider-track');
         const slides = Array.from(track.children);
         const nextButton = carousel.querySelector('.next');
         const prevButton = carousel.querySelector('.prev');
-        const slideWidth = slides[0].getBoundingClientRect().width;
-        let currentIndex = 0;
-
-        // Clonar slides para efecto infinito
-        const clonesCount = slides.length;
-        for(let i = 0; i < clonesCount; i++) {
-            track.appendChild(slides[i].cloneNode(true));
-        }
-        for(let i = clonesCount - 1; i >= 0; i--) {
-            track.prepend(slides[i].cloneNode(true));
-        }
         
-        const allSlides = Array.from(track.children);
+        let currentIndex = 0; // Índice del slide actual.
 
-        const updateSlidePosition = () => {
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            track.style.transition = 'transform 0.5s ease-in-out';
+        // Calcula el ancho de un slide, incluyendo el margen.
+        // Se asume que todos los slides tienen el mismo ancho y margen.
+        const getSlideWidth = () => {
+            if (slides.length === 0) return 0;
+            const slideStyle = getComputedStyle(slides[0]);
+            return slides[0].offsetWidth + 
+                   parseFloat(slideStyle.marginLeft) + 
+                   parseFloat(slideStyle.marginRight);
         };
 
-        const shiftSlides = () => {
-            if (currentIndex >= slides.length + clonesCount) {
-                track.style.transition = 'none';
-                currentIndex = clonesCount;
-                track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            }
-            if (currentIndex < clonesCount) {
-                track.style.transition = 'none';
-                currentIndex = currentIndex + slides.length;
-                 track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            }
-        }
-        
+        // Actualiza la posición del carrusel.
+        const updateCarousel = () => {
+            // Ajusta el transform X para mostrar el slide correcto.
+            track.style.transform = `translateX(-${currentIndex * getSlideWidth()}px)`;
+        };
+
+        // Maneja el clic en el botón "Siguiente".
         nextButton.addEventListener('click', () => {
-            currentIndex++;
-            updateSlidePosition();
-        });
-
-        prevButton.addEventListener('click', () => {
-            currentIndex--;
-            updateSlidePosition();
-        });
-
-        track.addEventListener('transitionend', shiftSlides);
-
-        // Swipe functionality
-        let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID;
-
-        const getPositionX = (event) => event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        
-        const dragStart = (e) => {
-            isDragging = true;
-            startPos = getPositionX(e);
-            animationID = requestAnimationFrame(animation);
-            track.style.transition = 'none';
-        };
-
-        const drag = (e) => {
-            if (isDragging) {
-                const currentPosition = getPositionX(e);
-                currentTranslate = prevTranslate + currentPosition - startPos;
-                track.style.transform = `translateX(${currentTranslate}px)`;
+            // Determina cuántos slides se muestran por vista (ej: 3 para desktop, 2 para tablet, 1 para mobile).
+            // Esto necesita un cálculo más dinámico basado en media queries o JS avanzado,
+            // pero para este setup básico, asumimos una vista de 3 slides en desktop.
+            // Para una responsividad más robusta, este "slides.length - X" debería ser dinámico.
+            // Por ahora, 'slides.length - 3' permite que los últimos 3 slides se muestren sin desbordar.
+            // Considera ajustar este número o implementar una lógica más inteligente.
+            const slidesInView = window.innerWidth >= 992 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            if (currentIndex < slides.length - slidesInView) {
+                currentIndex++;
+                updateCarousel();
             }
-        };
+        });
 
-        const dragEnd = () => {
-            isDragging = false;
-            cancelAnimationFrame(animationID);
-            
-            const movedBy = currentTranslate - prevTranslate;
-            if (movedBy < -100 && currentIndex < allSlides.length - 1) currentIndex++;
-            if (movedBy > 100 && currentIndex > 0) currentIndex--;
+        // Maneja el clic en el botón "Anterior".
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
 
-            updateSlidePosition();
-        };
+        // Opcional: Recalcular el ancho del slide y actualizar el carrusel al redimensionar la ventana.
+        window.addEventListener('resize', () => {
+            updateCarousel(); // Asegura que el carrusel se ajuste si cambia el tamaño de la ventana.
+        });
 
-        track.addEventListener('mousedown', dragStart);
-        track.addEventListener('touchstart', dragStart);
-        track.addEventListener('mouseup', dragEnd);
-        track.addEventListener('touchend', dragEnd);
-        track.addEventListener('mouseleave', dragEnd);
-        track.addEventListener('mousemove', drag);
-        track.addEventListener('touchmove', drag);
+        // Inicializar el carrusel en el primer slide.
+        updateCarousel();
+    };
 
-        function animation() {
-            if(isDragging) requestAnimationFrame(animation);
-        }
-        
-        // Inicialización
-        currentIndex = clonesCount;
-        prevTranslate = -currentIndex * slideWidth;
-        track.style.transform = `translateX(${prevTranslate}px)`;
-    }
+    // --- INICIALIZACIÓN DE TODAS LAS FUNCIONES AL CARGAR EL CONTENIDO DEL DOM ---
+    setupNavbarScroll();
+    setupMobileMenu();
+    setupAccordions('.service-item'); // Acordeón para la sección de servicios (exclusivo)
+    setupAccordions('.faq-item');     // Acordeón para la sección de preguntas frecuentes (no exclusivo)
+    setupTestimonialCarousel();
 });
