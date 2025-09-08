@@ -90,15 +90,54 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 
 /* Hero */
 #hero {
-    min-height: 100vh;
+    /* Mantiene las propiedades existentes */
+    padding: 10rem 0; /* Asegura un buen espacio alrededor del contenido */
     display: flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    background: radial-gradient(circle, rgba(245,245,247,0.5) 0%, rgba(253,253,253,1) 40%); 
+    position: relative; /* Es importante para posicionar la capa de superposición */
+    overflow: hidden; /* Para asegurar que la imagen de fondo no se desborde */
+
+    /* --- Nuevos estilos para la imagen de fondo --- */
+    background: url('3.png') no-repeat center center / cover;
+    color: var(--color-white); /* Asegura que el texto blanco sea legible */
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Capa oscura semitransparente (50% de opacidad) */
+    backdrop-filter: blur(5px); /* Desenfoque suave para la imagen de fondo */
+    z-index: 1; /* Asegura que la capa esté por encima de la imagen pero debajo del contenido */
+}
+
+#hero .container {
+    position: relative; /* Asegura que el contenido esté por encima de la capa de superposición */
+    z-index: 2; /* Mayor z-index que la capa de superposición */
+}
+
+/* Ajustes adicionales para el texto del hero para mejorar la legibilidad sobre el fondo */
+#hero h1 {
+    color: var(--color-white) !important; /* Títulos en blanco */
+    margin-bottom: 1rem;
+}
+
+#hero p.subtitle {
+    color: var(--color-light-grey) !important; /* Subtítulo en un gris claro */
+    max-width: 800px;
+    margin: 0 auto 2.5rem auto;
+}
+
+#hero .text-highlight {
+    color: var(--color-secondary); /* Mantiene el color azul para el resaltado */
 }
 #hero .hero-content { max-width: 800px; margin: 0 auto; padding-top: 5rem; }
 #hero h1 { font-size: 4.5rem; font-weight: 700; letter-spacing: -1.5px; }
-#hero .subtitle { font-size: 1.25rem; color: var(--text-secondary); margin: 1.5rem auto 2.5rem auto; }
 
 /* Comparación */
 #comparacion { background-color: var(--surface); }
