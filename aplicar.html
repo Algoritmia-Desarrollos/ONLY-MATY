@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación | EMPRESA XXX</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <style>
+        :root {
+            --light-bg: #FFFFFF;
+            --surface-bg: #F9F9F9;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border-color: #EAEAEA;
+            --primary-color: #000000; /* Color principal para botones y acentos */
+            --primary-hover: #333333;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --font-primary: 'Poppins', sans-serif;
+            --font-secondary: 'Inter', sans-serif;
+            --transition-speed: 0.3s;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--surface-bg);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 4rem 1rem;
+        }
+
+        .form-container {
+            background-color: var(--light-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--text-secondary);
+        }
+        .form-header .required-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+        .required-info span { color: var(--error-color); }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-primary);
+        }
+        
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--error-color);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="url"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--surface-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-secondary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,0,0, 0.1);
+        }
+        
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        
+        .radio-group label, .checkbox-group label { font-weight: 400; font-family: var(--font-secondary); }
+        .radio-option, .checkbox-option { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .radio-option input[type="radio"], .checkbox-option input[type="checkbox"] { margin-right: 0.75rem; }
+        .radio-option .other-input { margin-left: 2rem; }
+
+        .submit-btn { width: 100%; padding: 1rem; background-color: var(--primary-color); border: none; border-radius: 8px; color: var(--light-bg); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; }
+        .submit-btn:hover { background-color: var(--primary-hover); }
+        .submit-btn:active { transform: scale(0.98); }
+        
+        .form-message { text-align: center; font-weight: 500; min-height: 24px; margin-top: 1.5rem; }
+        .form-message.success { color: var(--success-color); }
+        .form-message.error { color: var(--error-color); }
+
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .form-container { padding: 1.5rem; }
+            .form-header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h1>AGENCIA XXX</h1>
+            <p>¡Completá el siguiente cuestionario para que podamos programar una entrevista con vos!</p>
+            <p class="required-info"><span>*</span> Indica que la pregunta es obligatoria</p>
+        </div>
+
+        <form id="application-form">
+            
+            <div class="form-group">
+                <label for="correo" class="required">Correo</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre_completo" class="required">Nombre completo</label>
+                <input type="text" id="nombre_completo" name="nombre_completo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp" class="required">Número de WhatsApp (con código de país)</label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ejemplo: +54 9 341 123 4567" required>
+            </div>
+
+            <div class="form-group">
+                <label class="required">Género</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" id="hombre" name="genero" value="Hombre" required><label for="hombre">Hombre</label></div>
+                    <div class="radio-option"><input type="radio" id="mujer" name="genero" value="Mujer"><label for="mujer">Mujer</label></div>
+                    <div class="radio-option"><input type="radio" id="otro_genero" name="genero" value="Otro"><label for="otro_genero">Otro:</label><input type="text" name="genero_otro" class="other-input" placeholder="Por favor, especifique"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="edad" class="required">Edad</label>
+                <input type="number" id="edad" name="edad" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ubicacion" class="required">Nacionalidad y lugar de residencia actualmente</label>
+                <input type="text" id="ubicacion" name="ubicacion" required>
+            </div>
+
+            <div class="form-group">
+                <label class="required">¿Tenés cuenta de Only Fans? ¿Desde hace cuánto tiempo estás en la plataforma?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" id="of_no" name="tiene_onlyfans" value="No" required><label for="of_no">No</label></div>
+                    <div class="radio-option"><input type="radio" id="of_menos_6" name="tiene_onlyfans" value="Si, Menos de 6 meses"><label for="of_menos_6">Si, Menos de 6 meses.</label></div>
+                    <div class="radio-option"><input type="radio" id="of_6_12" name="tiene_onlyfans" value="Si, 6 Meses a 12 meses"><label for="of_6_12">Si, 6 Meses a 12 meses</label></div>
+                    <div class="radio-option"><input type="radio" id="of_mas_1" name="tiene_onlyfans" value="Si, 1 año o más"><label for="of_mas_1">Si, 1 año o más.</label></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="link_onlyfans" class="required">¿Tenés un enlace de Only Fans que puedas compartir? (Si no tenés, escribí “No tengo”)</label>
+                <input type="text" id="link_onlyfans" name="link_onlyfans" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">¿Cuánto facturás mensualmente en promedio en Only Fans?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="facturacion_mensual" value="Nada" required><label>Nada</label></div>
+                    <div class="radio-option"><input type="radio" name="facturacion_mensual" value="$0 a $1.000"><label>$0 a $1.000</label></div>
+                    <div class="radio-option"><input type="radio" name="facturacion_mensual" value="$1.000 a $3.000"><label>$1.000 a $3.000</label></div>
+                    <div class="radio-option"><input type="radio" name="facturacion_mensual" value="$3.000 a $10.000"><label>$3.000 a $10.000</label></div>
+                    <div class="radio-option"><input type="radio" name="facturacion_mensual" value="+ $10.000"><label>+ $10.000</label></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="facturacion_ultimo_mes" class="required">¿Cuánto facturó tu cuenta el último mes?</label>
+                <input type="text" id="facturacion_ultimo_mes" name="facturacion_ultimo_mes" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">¿Cuánto te gustaría facturar por mes?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="meta_facturacion" value="$500 a $1000" required><label>$500 a $1000</label></div>
+                    <div class="radio-option"><input type="radio" name="meta_facturacion" value="$1000 a $5000"><label>$1000 a $5000</label></div>
+                    <div class="radio-option"><input type="radio" name="meta_facturacion" value="$5000 a $15000"><label>$5000 a $15000</label></div>
+                    <div class="radio-option"><input type="radio" name="meta_facturacion" value="$15.000 a $50.000"><label>$15.000 a $50.000</label></div>
+                    <div class="radio-option"><input type="radio" name="meta_facturacion" value="Más de $50.000"><label>Más de $50.000</label></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="required">¿Cuál es tu disponibilidad horaria?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="disponibilidad" value="Menos de 4 horas diarias" required><label>Menos de 4 horas diarias</label></div>
+                    <div class="radio-option"><input type="radio" name="disponibilidad" value="4 Horas diarias"><label>4 Horas diarias</label></div>
+                    <div class="radio-option"><input type="radio" name="disponibilidad" value="6 Horas diarias"><label>6 Horas diarias</label></div>
+                    <div class="radio-option"><input type="radio" name="disponibilidad" value="8 Horas diarias"><label>8 Horas diarias</label></div>
+                    <div class="radio-option"><input type="radio" name="disponibilidad" value="Full Time"><label>Full Time</label></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="ocupacion_actual" class="required">¿A qué te dedicas actualmente? (trabajo, estudios, etc.)</label>
+                <input type="text" id="ocupacion_actual" name="ocupacion_actual" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">¿Te dedicarías 100% a este trabajo?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="dedicacion_fulltime" value="Sí" required><label>Sí</label></div>
+                    <div class="radio-option"><input type="radio" name="dedicacion_fulltime" value="No"><label>No</label></div>
+                </div>
+            </div>
+            
+             <div class="form-group">
+                <label class="required">¿Promocionás tu contenido en tus redes personales?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="promocion_redes" value="Sí, en mis redes personales" required><label>Sí, en mis redes personales</label></div>
+                    <div class="radio-option"><input type="radio" name="promocion_redes" value="No, pero podría hacerlo"><label>No, pero podría hacerlo</label></div>
+                    <div class="radio-option"><input type="radio" name="promocion_redes" value="No, prefiero mantenerlo separado"><label>No, prefiero mantenerlo separado</label></div>
+                    <div class="radio-option"><input type="radio" name="promocion_redes" value="Otro"><label>Otro:</label><input type="text" name="promocion_redes_otro" class="other-input"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="plataformas_promo" class="required">¿En qué plataformas estás promocionando actualmente tu cuenta de OnlyFans? (Ej: Instagram, Twitter, TikTok, Reddit, etc.)</label>
+                <textarea id="plataformas_promo" name="plataformas_promo" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="links_redes" class="required">Compartinos los enlaces a tus redes sociales (si tenés): (Ej: Instagram, Twitter, TikTok, Reddit etc.)</label>
+                <textarea id="links_redes" name="links_redes" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">¿Trabajaste alguna vez con una agencia de Only Fans?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="experiencia_agencia" value="Sí" required><label>Sí</label></div>
+                    <div class="radio-option"><input type="radio" name="experiencia_agencia" value="No"><label>No</label></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">¿Creás contenido explícito?</label>
+                <div class="radio-group">
+                    <div class="radio-option"><input type="radio" name="contenido_explicito" value="Si" required><label>Si</label></div>
+                    <div class="radio-option"><input type="radio" name="contenido_explicito" value="No"><label>No</label></div>
+                    <div class="radio-option"><input type="radio" name="contenido_explicito" value="Otro"><label>Otro:</label><input type="text" name="contenido_explicito_otro" class="other-input"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="como_nos_conocio" class="required">¿Cómo llegaste a nuestra agencia?</label>
+                <select id="como_nos_conocio" name="como_nos_conocio" required>
+                    <option value="" disabled selected>Seleccioná una opción</option>
+                    <option value="Youtube">Youtube</option>
+                    <option value="Google/WEB">Google/WEB</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="Spotify">Spotify</option>
+                    <option value="Un amigo/a">Un amigo/a</option>
+                    <option value="Telegram">Telegram</option>
+                    <option value="Reddit">Reddit</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Enviar Cuestionario</button>
+            
+            <div id="form-message" class="form-message"></div>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            emailjs.init({ publicKey: '3bkxlvg4klx2DB5rd' });
+        })();
+
+        const contactForm = document.getElementById('application-form');
+        const formMessage = document.getElementById('form-message');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            formMessage.textContent = 'Enviando...';
+            formMessage.className = 'form-message';
+
+            emailjs.sendForm('TU_SERVICE_ID', 'template_y4w9qwr', this)
+                .then(function() {
+                    formMessage.textContent = '¡Cuestionario enviado con éxito! Nos pondremos en contacto pronto.';
+                    formMessage.className = 'form-message success';
+                    contactForm.reset();
+                    // Opcional: Redirigir a una página de agradecimiento
+                    // window.location.href = 'gracias.html';
+                }, function(error) {
+                    formMessage.textContent = 'Hubo un error al enviar tu cuestionario. Por favor, revisá los campos e intentá de nuevo.';
+                    formMessage.className = 'form-message error';
+                    console.error('EMAILJS ERROR:', error);
+                });
+        });
+    </script>
+
+</body>
+</html>
