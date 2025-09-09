@@ -470,3 +470,14 @@ textarea { resize: vertical; }
 .pagination-dot.active {
     background-color: var(--primary-accent);
 }
+
+/* --- ESTILOS PARA EL LOGO DEL FOOTER --- */
+.footer-bottom .logo {
+    font-family: var(--font-logo); /* Usa la misma tipografía 'Great Vibes' */
+    font-size: 2.2rem;            /* Un tamaño ligeramente más pequeño para que encaje bien en el pie de página */
+    font-weight: normal;          /* Se asegura de que no esté en negrita */
+    color: var(--text-primary);   /* Usa el mismo color de texto que el logo principal */
+    text-decoration: none;        /* Quita el subrayado del enlace */
+    display: block;               /* Lo convierte en un bloque para poder centrarlo y darle margen */
+    margin-bottom: 1rem;          /* Añade un espacio debajo, antes del texto de copyright */
+}
