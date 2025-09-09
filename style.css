@@ -335,12 +335,18 @@ textarea { resize: vertical; }
 /* --- 6. RESPONSIVIDAD --- */
 @media (max-width: 992px) {
     h2 { font-size: 2.5rem; }
-    #hero h1 { font-size: 3.5rem; }
+    #hero h1 { font-size: 4rem !important; }
     .comparison-grid, .numeros-grid, .proceso-grid { grid-template-columns: 1fr; }
     .numeros-image { order: -1; margin-bottom: 2rem; }
     .slide { min-width: calc(100% / 2); }
 
-}
+    .mobile-cta a{
+            color: white !important;
+        }
+        
+    }
+
+
 @media (max-width: 768px) {
     section { padding: 4rem 0; }
     h2 { font-size: 2.2rem; }
