@@ -67,7 +67,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 
 /* --- 3. NAVEGACIÓN --- */
 .navbar {
-    padding: 5px 0;
+    padding: 0.5rem 0;
     position: fixed;
     width: 100%;
     top: 0; left: 0;
@@ -78,15 +78,10 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     background-color: rgba(245, 243, 237, 0.85); /* Fondo crema traslúcido */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding:5px 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 .navbar .container { display: flex; justify-content: space-between; align-items: center; }
 .navbar .logo { 
-    font-family: var(--font-logo);
-    font-size: 2.5rem; /* Ajuste de tamaño para la nueva fuente */
-    font-weight: normal; 
-    color: var(--text-primary); 
     text-decoration: none;
 }
 .nav-menu ul { list-style: none; display: flex; gap: 2.5rem; }
@@ -123,13 +118,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     letter-spacing: -1.5px;
     color: var(--text-primary);
 }
-/* Estilo especial para el nombre de la marca en el H1 */
-#hero h1 .brand-name {
-    font-family: var(--font-logo);
-    font-weight: normal;
-    font-size: 5.5rem; /* Más grande para destacar */
-    color: var(--primary-accent);
-}
 
 #hero .subtitle { 
     font-size: 1.25rem; 
@@ -137,16 +125,13 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     margin: 1.5rem auto 2.5rem auto; 
 }
 
-
 /* Comparación */
 #comparacion { background-color: var(--surface); }
 .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 .comparison-card {
     padding: 2.5rem;
     border-radius: var(--border-radius-large);
-    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
-.comparison-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
 .comparison-card.dark { 
     background-color: var(--primary-accent); 
     color: white;
@@ -154,11 +139,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .comparison-card.light { background-color: var(--background); border: 1px solid var(--border-color); }
 .comparison-card h3 { font-size: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; font-weight: 600; }
 .comparison-card.dark h3 { color: white; border-bottom-color: rgba(255,255,255,0.3); }
-.comparison-card ul { list-style: none; }
-.comparison-card li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; line-height: 1.6; }
-.comparison-card.dark li { color: white; }
-.comparison-card li svg { width: 24px; height: 24px; flex-shrink: 0; }
-.comparison-card.light svg { color: var(--text-primary); }
 
 /* Servicios */
 #servicios { background-color: var(--background); }
@@ -202,7 +182,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     gap: 5rem;
     align-items: center;
 }
-
 .proceso-steps { display: flex; flex-direction: column; gap: 1.5rem; }
 .step-card {
     position: relative;
@@ -244,7 +223,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .slider-viewport { overflow: hidden; }
 .slider-track { display: flex; transition: transform 0.5s ease-in-out; }
 .slide { min-width: calc(100% / 3); padding: 0 1rem; }
-
 .testimonial-card {
     display: flex;
     flex-direction: column;
@@ -254,7 +232,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     border-radius: var(--border-radius-medium);
     height: 100%;
 }
-
 .testimonial-image {
     width: 100%;
     height: 300px;
@@ -262,18 +239,20 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     border-radius: var(--border-radius-medium);
     margin-bottom: 1.5rem;
 }
-
 .testimonial-card p {
     flex-grow: 1;
+    font-size: 1rem; 
+    font-style: italic; 
+    color: #333;
 }
-
 .author-info {
     margin-top: auto;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
+    display: flex; 
+    align-items: center; 
+    gap: 1rem;
 }
-.testimonial-card p { font-size: 1rem; flex-grow: 1; font-style: italic; color: #333; }
-.author-info { display: flex; align-items: center; gap: 1rem; padding-top: 1rem; margin-top: 1.5rem; }
 .author-info h4 { margin: 0; font-size: 1rem; color: var(--text-primary); }
 .author-info span { font-size: 0.9rem; color: var(--text-secondary); }
 .slider-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
@@ -292,7 +271,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .faq-item.active .faq-icon { transform: rotate(45deg); }
 .faq-item.active .faq-answer { max-height: 200px; }
 
-
 /* Formulario de Aplicación */
 #application-form {
     padding-top: 10rem;
@@ -301,7 +279,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     position: relative;
     overflow: hidden;
 }
-
 .form-container {
     position: relative;
     z-index: 1;
@@ -312,9 +289,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     border-radius: var(--border-radius-large);
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
-.form-group {
-    margin-bottom: 1.5rem;
-}
+.form-group { margin-bottom: 1.5rem; }
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
@@ -322,11 +297,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     font-family: var(--font-heading);
     color: var(--text-primary);
 }
-input[type="text"],
-input[type="email"],
-input[type="url"],
-textarea,
-select {
+input[type="text"], input[type="email"], input[type="url"], textarea, select {
     width: 100%;
     padding: 12px 16px;
     border: 1px solid var(--border-color);
@@ -336,22 +307,13 @@ select {
     color: var(--text-primary);
     transition: all var(--transition-speed) ease;
 }
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-textarea:focus,
-select:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="url"]:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--primary-accent);
     box-shadow: 0 0 0 3px rgba(42, 75, 58, 0.2);
 }
-textarea {
-    resize: vertical;
-}
-.form-container button[type="submit"] {
-    width: 100%;
-}
-
+textarea { resize: vertical; }
+.form-container button[type="submit"] { width: 100%; }
 
 /* --- 5. FOOTER --- */
 .footer { padding: 6rem 0 2rem 0; background: var(--surface); }
@@ -359,11 +321,7 @@ textarea {
 .footer-cta h2 { font-size: 3rem; margin-bottom: 1rem; }
 .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid var(--border-color); }
 .footer-bottom .logo { 
-    font-family: var(--font-logo);
-    font-size: 2.2rem;
-    font-weight: normal;
     text-decoration: none; 
-    color: var(--text-primary); 
     margin-bottom: 1rem; 
     display: inline-block; 
 }
@@ -373,17 +331,14 @@ textarea {
 @media (max-width: 992px) {
     h2 { font-size: 2.5rem; }
     #hero h1 { font-size: 3.5rem; }
-    #hero h1 .brand-name { font-size: 4.5rem; }
     .comparison-grid, .numeros-grid, .proceso-grid { grid-template-columns: 1fr; }
     .numeros-image { order: -1; margin-bottom: 2rem; }
     .slide { min-width: calc(100% / 2); }
 }
-
 @media (max-width: 768px) {
     section { padding: 4rem 0; }
     h2 { font-size: 2.2rem; }
     #hero h1 { font-size: 2.8rem; }
-    #hero h1 .brand-name { font-size: 3.8rem; }
     #hero .subtitle { font-size: 1.1rem; }
     .nav-menu {
         display: block;
@@ -410,10 +365,8 @@ textarea {
     .comparison-card { padding: 1.5rem; }
     .form-container { padding: 2rem; }
 }
-
 @media (max-width: 480px) {
     #hero h1 { font-size: 2.2rem; }
-    #hero h1 .brand-name { font-size: 3.2rem; }
     .footer-cta h2 { font-size: 2.5rem; }
     .service-header h3, .faq-question { font-size: 1.3rem; }
     .step-card h3 { font-size: 1.3rem; }
@@ -429,42 +382,65 @@ textarea {
     background-color: var(--background);
     padding: 2rem 0;
 }
+.thank-you-content { max-width: 600px; margin: 0 auto; }
+.thank-you-icon { width: 80px; height: 80px; color: var(--primary-accent); margin-bottom: 2rem; }
+#thank-you h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+#thank-you p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2.5rem; }
 
-.thank-you-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.thank-you-icon {
-    width: 80px;
-    height: 80px;
-    color: var(--primary-accent);
-    margin-bottom: 2rem;
-}
-
-#thank-you h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-}
-
-#thank-you p {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 2.5rem;
-}
-
-/* Ajustes responsivos para la página de gracias */
 @media (max-width: 768px) {
-    #thank-you h1 {
-        font-size: 2.5rem;
-    }
+    #thank-you h1 { font-size: 2.5rem; }
+    #thank-you p { font-size: 1.1rem; }
+    .thank-you-icon { width: 60px; height: 60px; }
+}
 
-    #thank-you p {
-        font-size: 1.1rem;
-    }
+/* --- ESTILOS CORREGIDOS PARA LA SECCIÓN DE COMPARACIÓN --- */
+.comparison-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+.comparison-card ul { list-style: none; }
+.comparison-card li svg {
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+.comparison-card li div {
+    display: flex;
+    flex-direction: column;
+}
+.comparison-card li strong {
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+}
+.comparison-card.dark li strong { color: white; }
+.comparison-card li span {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+.comparison-card.dark li span { color: rgba(255, 255, 255, 0.85); }
 
-    .thank-you-icon {
-        width: 60px;
-        height: 60px;
-    }
+/* --- AJUSTES FINALES PARA EL LOGO --- */
+.navbar .logo img {
+    height: 90px;
+    width: auto;
+    transition: height var(--transition-speed) ease;
+}
+.navbar.scrolled .logo img {
+    height: 70px;
+}
+.footer-bottom .logo img {
+    height: 80px;
+    width: auto;
+}
+
+.navbar .logo { 
+    font-family: var(--font-logo);
+    font-size: 2.5rem;
+    font-weight: normal; 
+    color: var(--text-primary); 
+    text-decoration: none;
 }

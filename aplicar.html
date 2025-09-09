@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplicá Ahora | Luxevibe</title>
     
+    <title>Aplicá Ahora | LuxeVibe</title>
+    <meta name="description" content="Aplicá para unirte a LuxeVibe. Completá el formulario y nuestro equipo analizará tu perfil para potenciar tu carrera como creadora de contenido.">
+    
+    <meta property="og:title" content="Aplicá Ahora | LuxeVibe">
+    <meta property="og:description" content="Completá el formulario para empezar a trabajar con nosotros.">
+    <meta property="og:image" content="logo1.webp">
+    <meta property="og:url" content="URL_DE_TU_SITIO_WEB/aplicar.html">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="logo1.webp" type="image/webp">
+    <link rel="apple-touch-icon" href="logo1.webp">
+
     <link rel="stylesheet" href="style.css">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
-    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
 
     <header class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">Luxevibe</a>
+<a href="index.html" class="logo">Luxevibe</a>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="index.html#servicios">Servicios</a></li>
@@ -91,11 +101,11 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
     <script>
+        AOS.init();
         feather.replace();
     </script>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
     <script type="text/javascript">
         (function(){
             emailjs.init('3bkxlvg4klx2DB5rd');
@@ -106,7 +116,7 @@
                 event.preventDefault();
                 
                 const submitButton = this.querySelector('button[type="submit"]');
-                submitButton.disabled = true; // Deshabilitamos el botón para evitar doble envío
+                submitButton.disabled = true;
                 submitButton.textContent = 'Enviando...';
 
                 const serviceID = 'maty-only';
@@ -114,10 +124,9 @@
 
                 emailjs.sendForm(serviceID, templateID, this)
                     .then(() => {
-                        // ¡CAMBIO CLAVE! Redirigimos a la página de gracias
                         window.location.href = 'gracias.html';
                     }, (err) => {
-                        submitButton.disabled = false; // Habilitamos el botón de nuevo si hay un error
+                        submitButton.disabled = false;
                         submitButton.textContent = 'Error al Enviar';
                         alert('Ocurrió un error al enviar tu aplicación. Por favor, intentá de nuevo.\n\nError: ' + JSON.stringify(err));
                     });
