@@ -420,7 +420,7 @@ textarea { resize: vertical; }
     line-height: 1.4;
     color: var(--text-primary);
 }
-.comparison-card.dark li strong { color: white; }
+.comparison-card.dark li strong { color: rgb(255, 255, 255); }
 .comparison-card li span {
     font-size: 1rem;
     line-height: 1.6;
