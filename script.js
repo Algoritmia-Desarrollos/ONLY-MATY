@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 4. TESTIMONIAL CAROUSEL (VERSIÓN CORREGIDA) ---
+    // --- 4. TESTIMONIAL CAROUSEL (LÓGICA DEFINITIVA PARA BUCLE INFINITO) ---
     const setupTestimonialCarousel = () => {
         const carousel = document.querySelector('.testimonial-carousel');
         if (!carousel) return;
@@ -66,94 +66,76 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slides.length === 0) return;
 
         let currentIndex = 0;
-        let isTransitioning = false;
-        
-        const slidesToClone = 3;
-        for (let i = 0; i < slidesToClone; i++) {
-            track.appendChild(slides[i].cloneNode(true));
-        }
-        for (let i = slides.length - 1; i >= slides.length - slidesToClone; i--) {
-            track.insertBefore(slides[i].cloneNode(true), slides[0]);
-        }
-        
-        const getSlideWidth = () => slides[0].offsetWidth + parseInt(getComputedStyle(slides[0]).marginRight) * 2;
+        let isMoving = false;
+        const totalSlides = slides.length;
 
-        const setInitialPosition = () => {
-            track.style.transition = 'none';
-            track.style.transform = `translateX(-${getSlideWidth() * slidesToClone}px)`;
-        };
-        
-        setInitialPosition();
+        // Clonar slides para el efecto infinito
+        slides.forEach(slide => {
+            const clone = slide.cloneNode(true);
+            track.appendChild(clone);
+        });
 
-        let dots = [];
-        if (paginationContainer) {
-            for (let i = 0; i < slides.length; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('pagination-dot');
-                paginationContainer.appendChild(dot);
-                dots.push(dot);
-                dot.addEventListener('click', () => {
-                    if (isTransitioning) return;
-                    currentIndex = i;
-                    moveToSlide();
-                });
-            }
-        }
-        
         const updatePagination = () => {
-            if (!dots.length) return;
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[currentIndex].classList.add('active');
+            if (!paginationContainer) return;
+            // Limpiar paginación existente
+            paginationContainer.innerHTML = '';
+            // Crear puntos
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('pagination-dot');
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateCarouselPosition();
+                });
+                paginationContainer.appendChild(dot);
+            }
         };
 
-        const moveToSlide = (direction) => {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            
-            let targetIndex;
-            if (direction === 'next') {
-                targetIndex = slidesToClone + currentIndex + 1;
-            } else if (direction === 'prev') {
-                targetIndex = slidesToClone + currentIndex - 1;
-            } else {
-                targetIndex = slidesToClone + currentIndex;
-            }
-             
-            track.style.transform = `translateX(-${getSlideWidth() * targetIndex}px)`;
-            track.style.transition = 'transform 0.5s ease-in-out';
+        const updateCarouselPosition = (withTransition = true) => {
+            const slideWidth = slides[0].offsetWidth + parseInt(getComputedStyle(slides[0]).marginRight) * 2;
+            track.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
             updatePagination();
         };
-
-        nextButton.addEventListener('click', () => {
-            if (isTransitioning) return;
+        
+        const moveNext = () => {
+            if (isMoving) return;
+            isMoving = true;
             currentIndex++;
-            moveToSlide('next');
-        });
+            updateCarouselPosition();
+        };
 
-        prevButton.addEventListener('click', () => {
-            if (isTransitioning) return;
+        const movePrev = () => {
+            if (isMoving) return;
+            isMoving = true;
             currentIndex--;
-            moveToSlide('prev');
-        });
+            updateCarouselPosition();
+        };
+
+        nextButton.addEventListener('click', moveNext);
+        prevButton.addEventListener('click', movePrev);
 
         track.addEventListener('transitionend', () => {
-            if (currentIndex >= slides.length) {
+            isMoving = false;
+            // Si llegamos al final de la primera mitad (el clon del inicio)
+            if (currentIndex >= totalSlides) {
                 currentIndex = 0;
-                track.style.transition = 'none';
-                track.style.transform = `translateX(-${getSlideWidth() * (slidesToClone + currentIndex)}px)`;
+                updateCarouselPosition(false);
             }
+            // Si nos vamos muy a la izquierda
             if (currentIndex < 0) {
-                currentIndex = slides.length - 1;
-                track.style.transition = 'none';
-                track.style.transform = `translateX(-${getSlideWidth() * (slidesToClone + currentIndex)}px)`;
+                currentIndex = totalSlides - 1;
+                updateCarouselPosition(false);
             }
-            // **LA LÍNEA CLAVE QUE ARREGLA EL BUG**
-            updatePagination();
-            isTransitioning = false;
         });
         
-        updatePagination();
+        // Inicializar
+        updateCarouselPosition();
     };
+
 
     // --- 5. INICIALIZACIÓN DE AOS ---
     const setupAOS = () => {
