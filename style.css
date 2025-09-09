@@ -1,19 +1,22 @@
 /* --- 1. CONFIGURACIÓN GLOBAL Y NUEVA IDENTIDAD VISUAL --- */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
 :root {
-    /* Nueva Paleta de Colores - Inspirada en OnlyFans */
-    --primary-accent: #00aff0;       /* Azul principal de OnlyFans */
-    --primary-accent-hover: #009bd6; /* Un tono más oscuro para el hover */
+    /* Nueva Paleta de Colores - Inspirada en el Logo "Luxe" */
+    --primary-accent: #2A4B3A;       /* Verde oscuro del logo */
+    --primary-accent-hover: #3a6850; /* Un tono más claro para el hover */
     
     /* Colores de Base y Acentos */
-    --background: #FDFDFD;       /* Blanco cálido para secciones claras */
-    --surface: #F5F5F7;          /* Gris claro para alternar secciones */
+    --background: #F5F3ED;       /* Crema del fondo del logo */
+    --surface: #FFFFFF;          /* Blanco puro para tarjetas y secciones alternas */
     --text-primary: #1D1D1F;      /* Negro suave para texto */
-    --text-secondary: #6E6E73;    /* Gris secundario para párrafos */
-    --border-color: #E5E5E6;
+    --text-secondary: #58585A;    /* Gris secundario */
+    --border-color: #EAE8E3;     /* Borde sutil y cálido */
 
-    /* Tipografía Refinada */
-    --font-primary: 'Poppins', sans-serif;
-    --font-secondary: 'Inter', sans-serif;
+    /* Tipografía Refinada con la fuente del Logo */
+    --font-logo: 'Great Vibes', cursive;
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
     
     /* Variables de Diseño */
     --border-radius-small: 8px;
@@ -30,13 +33,13 @@ html { scroll-behavior: smooth; }
 body {
     background-color: var(--background);
     color: var(--text-primary);
-    font-family: var(--font-secondary);
+    font-family: var(--font-body);
     line-height: 1.8;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 .container { width: 90%; max-width: var(--container-width); margin: 0 auto; }
-h1, h2, h3, h4 { font-family: var(--font-primary); line-height: 1.3; font-weight: 700; }
+h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.3; font-weight: 700; }
 p { color: var(--text-secondary); max-width: 65ch; }
 img { max-width: 100%; height: auto; display: block; }
 section { padding: var(--section-padding); }
@@ -52,19 +55,19 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     border-radius: var(--border-radius-small);
     text-decoration: none;
     font-weight: 600;
-    font-family: var(--font-primary);
+    font-family: var(--font-heading);
     transition: all var(--transition-speed) ease;
     cursor: pointer;
     border: none;
     font-size: 1rem;
 }
 .btn-primary { background-color: var(--primary-accent); color: white; }
-.btn-primary:hover { background-color: var(--primary-accent-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 175, 240, 0.3); }
+.btn-primary:hover { background-color: var(--primary-accent-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(42, 75, 58, 0.3); }
 .btn-large { padding: 16px 32px; font-size: 1.1rem; }
 
 /* --- 3. NAVEGACIÓN --- */
 .navbar {
-    padding: 1.5rem 0;
+    padding: 5px 0;
     position: fixed;
     width: 100%;
     top: 0; left: 0;
@@ -72,14 +75,20 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     transition: background-color var(--transition-speed) ease, padding var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 .navbar.scrolled {
-    background-color: rgba(253, 253, 253, 0.85);
+    background-color: rgba(245, 243, 237, 0.85); /* Fondo crema traslúcido */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 1rem 0;
+    padding:5px 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 .navbar .container { display: flex; justify-content: space-between; align-items: center; }
-.navbar .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); text-decoration: none; }
+.navbar .logo { 
+    font-family: var(--font-logo);
+    font-size: 2.5rem; /* Ajuste de tamaño para la nueva fuente */
+    font-weight: normal; 
+    color: var(--text-primary); 
+    text-decoration: none;
+}
 .nav-menu ul { list-style: none; display: flex; gap: 2.5rem; }
 .nav-menu ul li a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color var(--transition-speed) ease; }
 .nav-menu ul li a:hover { color: var(--primary-accent); }
@@ -94,39 +103,32 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     display: flex;
     align-items: center;
     text-align: center;
-    position: relative; /* Necesario para posicionar el pseudo-elemento */
-    background-color: var(--background); /* Fondo blanco principal */
-    overflow: hidden; /* Evita que la imagen se salga */
-}
-
-#hero::after {
-    content: '';
-    background-image: url('6.png'); /* Asegúrate que el nombre del archivo sea correcto */
-    background-repeat: no-repeat;
-    background-size: cover; /* Ajusta la imagen para que cubra todo el espacio */
-    background-position: center; /* Centra la imagen */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.06; 
-    z-index: 1;
+    position: relative;
+    background-color: var(--background);
+    overflow: hidden;
 }
 
 #hero .hero-content { 
     max-width: 900px; 
     margin: 0 auto; 
     padding-top: 5rem; 
-    position: relative; /* Asegura que el contenido esté sobre la imagen */
+    position: relative;
     z-index: 2;
 }
 
 #hero h1 { 
     font-size: 4.5rem; 
-    font-weight: 700; 
+    font-weight: 700;
+    font-family: var(--font-heading);
     letter-spacing: -1.5px;
     color: var(--text-primary);
+}
+/* Estilo especial para el nombre de la marca en el H1 */
+#hero h1 .brand-name {
+    font-family: var(--font-logo);
+    font-weight: normal;
+    font-size: 5.5rem; /* Más grande para destacar */
+    color: var(--primary-accent);
 }
 
 #hero .subtitle { 
@@ -147,7 +149,6 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .comparison-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.07); }
 .comparison-card.dark { 
     background-color: var(--primary-accent); 
-    border: 1px solid var(--primary-accent);
     color: white;
 }
 .comparison-card.light { background-color: var(--background); border: 1px solid var(--border-color); }
@@ -163,14 +164,14 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 #servicios { background-color: var(--background); }
 .services-accordion { max-width: 900px; margin: 0 auto; }
 .service-item {
-    background: var(--background);
+    background: var(--surface);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-medium);
     margin-bottom: 1rem;
     cursor: pointer;
     transition: all var(--transition-speed) ease;
 }
-.service-item.active { border-color: var(--primary-accent); box-shadow: 0 4px 15px rgba(0, 175, 240, 0.2); }
+.service-item.active { border-color: var(--primary-accent); box-shadow: 0 4px 15px rgba(42, 75, 58, 0.2); }
 .service-header { padding: 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .service-header h3 { font-size: 1.5rem; font-weight: 600; }
 .service-content {
@@ -209,7 +210,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     padding-left: 3.5rem; 
     border: 1px solid var(--border-color); 
     border-radius: var(--border-radius-medium); 
-    background-color: var(--background);
+    background-color: var(--surface);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
     transition: all var(--transition-speed) ease;
 }
@@ -231,7 +232,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-family: var(--font-primary);
+    font-family: var(--font-heading);
     border: 3px solid var(--background); 
 }
 .step-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
@@ -248,6 +249,10 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: var(--background);
+    padding: 2rem;
+    border-radius: var(--border-radius-medium);
+    height: 100%;
 }
 
 .testimonial-image {
@@ -268,7 +273,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     border-top: 1px solid var(--border-color);
 }
 .testimonial-card p { font-size: 1rem; flex-grow: 1; font-style: italic; color: #333; }
-.author-info { display: flex; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: 1.5rem; }
+.author-info { display: flex; align-items: center; gap: 1rem; padding-top: 1rem; margin-top: 1.5rem; }
 .author-info h4 { margin: 0; font-size: 1rem; color: var(--text-primary); }
 .author-info span { font-size: 0.9rem; color: var(--text-secondary); }
 .slider-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
@@ -280,35 +285,21 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 #faq { background-color: var(--background); }
 .faq-accordion { max-width: 800px; margin: 0 auto; }
 .faq-item { border-bottom: 1px solid var(--border-color); }
-.faq-question { width: 100%; background: none; border: none; color: var(--text-primary); padding: 1.8rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1.2rem; font-family: var(--font-primary); font-weight: 600; text-align: left; }
+.faq-question { width: 100%; background: none; border: none; color: var(--text-primary); padding: 1.8rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1.2rem; font-family: var(--font-heading); font-weight: 600; text-align: left; }
 .faq-icon { font-size: 1.5rem; transition: transform 0.3s ease; }
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
 .faq-answer p { padding-bottom: 1.5rem; color: var(--text-secondary); }
 .faq-item.active .faq-icon { transform: rotate(45deg); }
 .faq-item.active .faq-answer { max-height: 200px; }
 
-/* --- NUEVOS ESTILOS PARA EL FORMULARIO DE APLICACIÓN --- */
+
+/* Formulario de Aplicación */
 #application-form {
     padding-top: 10rem;
     padding-bottom: 7rem;
     background-color: var(--surface);
     position: relative;
     overflow: hidden;
-}
-
-#application-form::after {
-    content: '';
-    background-image: url('6.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.04;
-    z-index: 0;
 }
 
 .form-container {
@@ -328,7 +319,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    font-family: var(--font-primary);
+    font-family: var(--font-heading);
     color: var(--text-primary);
 }
 input[type="text"],
@@ -341,7 +332,7 @@ select {
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-small);
     font-size: 1rem;
-    font-family: var(--font-secondary);
+    font-family: var(--font-body);
     color: var(--text-primary);
     transition: all var(--transition-speed) ease;
 }
@@ -352,7 +343,7 @@ textarea:focus,
 select:focus {
     outline: none;
     border-color: var(--primary-accent);
-    box-shadow: 0 0 0 3px rgba(0, 175, 240, 0.2);
+    box-shadow: 0 0 0 3px rgba(42, 75, 58, 0.2);
 }
 textarea {
     resize: vertical;
@@ -367,13 +358,22 @@ textarea {
 .footer-cta { text-align: center; max-width: 700px; margin: 0 auto 5rem auto; }
 .footer-cta h2 { font-size: 3rem; margin-bottom: 1rem; }
 .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid var(--border-color); }
-.footer-bottom .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--text-primary); margin-bottom: 1rem; display: inline-block; }
+.footer-bottom .logo { 
+    font-family: var(--font-logo);
+    font-size: 2.2rem;
+    font-weight: normal;
+    text-decoration: none; 
+    color: var(--text-primary); 
+    margin-bottom: 1rem; 
+    display: inline-block; 
+}
 .footer-bottom p { color: var(--text-secondary); font-size: 0.9rem; }
 
 /* --- 6. RESPONSIVIDAD --- */
 @media (max-width: 992px) {
     h2 { font-size: 2.5rem; }
     #hero h1 { font-size: 3.5rem; }
+    #hero h1 .brand-name { font-size: 4.5rem; }
     .comparison-grid, .numeros-grid, .proceso-grid { grid-template-columns: 1fr; }
     .numeros-image { order: -1; margin-bottom: 2rem; }
     .slide { min-width: calc(100% / 2); }
@@ -383,10 +383,10 @@ textarea {
     section { padding: 4rem 0; }
     h2 { font-size: 2.2rem; }
     #hero h1 { font-size: 2.8rem; }
+    #hero h1 .brand-name { font-size: 3.8rem; }
     #hero .subtitle { font-size: 1.1rem; }
     .nav-menu {
-        /* display: none; <- ESTE ERA EL PROBLEMA */
-        display: block; /* <- ESTA ES LA SOLUCIÓN */
+        display: block;
         position: fixed;
         top: 0; right: -100%;
         width: 85%; height: 100vh;
@@ -413,25 +413,26 @@ textarea {
 
 @media (max-width: 480px) {
     #hero h1 { font-size: 2.2rem; }
+    #hero h1 .brand-name { font-size: 3.2rem; }
     .footer-cta h2 { font-size: 2.5rem; }
     .service-header h3, .faq-question { font-size: 1.3rem; }
     .step-card h3 { font-size: 1.3rem; }
 }
 
-/* --- 7. ESTILOS PARA LA PÁGINA DE GRACIAS (CORREGIDO) --- */
+/* --- 7. PÁGINA DE GRACIAS --- */
 #thank-you {
-    min-height: calc(100vh - 80px); /* Ocupa toda la pantalla menos la altura del nav */
+    min-height: calc(100vh - 80px);
     display: flex;
-    align-items: center; /* Centra verticalmente */
-    justify-content: center; /* Centra horizontalmente */
-    text-align: center; /* Centra el texto dentro del contenedor */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     background-color: var(--background);
     padding: 2rem 0;
 }
 
 .thank-you-content {
     max-width: 600px;
-    margin: 0 auto; /* Asegura el centrado si el ancho es menor que el contenedor padre */
+    margin: 0 auto;
 }
 
 .thank-you-icon {
