@@ -29,15 +29,18 @@
 
 /* --- Reseteo y Estilos Base --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
+html { 
+    scroll-behavior: smooth; 
+    overflow-x: hidden; /* <-- Agregá esta línea */
+}body {
     background-color: var(--background);
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.8;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Esta línea ya estaba, y es bueno mantenerla */
     -webkit-font-smoothing: antialiased;
 }
+
 .container { width: 90%; max-width: var(--container-width); margin: 0 auto; }
 h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.3; font-weight: 700; }
 p { color: var(--text-secondary); max-width: 65ch; }
