@@ -65,37 +65,32 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (slides.length === 0) return;
 
-        let currentIndex = 0; // Este índice se refiere al slide "real" actual (0 a totalSlides-1)
-        let cloneCount = 0; // Número de clones insertados al inicio y al final
+        let currentIndex = 0;
+        let cloneCount = 0;
         let isMoving = false;
-        const totalSlides = slides.length; // Número de slides originales
+        const totalSlides = slides.length;
 
-        // Clonar slides para el efecto infinito (al menos 3 de cada lado para bucle suave con 3 visibles)
-        // Clonar los últimos 3 slides y ponerlos al principio
         for (let i = totalSlides - 1; i >= totalSlides - 3; i--) {
             track.insertBefore(slides[i].cloneNode(true), slides[0]);
             cloneCount++;
         }
-        // Clonar los primeros 3 slides y ponerlos al final
         for (let i = 0; i < 3; i++) {
             track.appendChild(slides[i].cloneNode(true));
             cloneCount++;
         }
 
-        const allVisibleSlides = Array.from(track.children); // Ahora incluye los clones
+        const allVisibleSlides = Array.from(track.children);
 
-        // Calcular el ancho de un slide (incluyendo su margen, si lo hubiera)
-        // Esto es crucial para un desplazamiento correcto con múltiples slides visibles
         const getSlideFullWidth = () => {
-            if (!allVisibleSlides[0]) return 0; // Evitar errores si no hay slides
+            if (!allVisibleSlides[0]) return 0;
             const slideStyle = getComputedStyle(allVisibleSlides[0]);
-            const margin = parseInt(slideStyle.marginRight) || 0; // Asumimos margen derecho
+            const margin = parseInt(slideStyle.marginRight) || 0;
             return allVisibleSlides[0].offsetWidth + margin;
         };
 
         const updatePagination = () => {
             if (!paginationContainer) return;
-            paginationContainer.innerHTML = ''; // Limpiar paginación existente
+            paginationContainer.innerHTML = '';
             for (let i = 0; i < totalSlides; i++) {
                 const dot = document.createElement('button');
                 dot.classList.add('pagination-dot');
@@ -112,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const updateCarouselPosition = (withTransition = true) => {
-            const currentPosition = currentIndex + 3; // +3 por los 3 clones al inicio
+            const currentPosition = currentIndex + 3;
             track.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
             track.style.transform = `translateX(-${currentPosition * getSlideFullWidth()}px)`;
             updatePagination();
@@ -137,31 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         track.addEventListener('transitionend', () => {
             isMoving = false;
-            // Si el índice real está fuera de los límites de los slides originales, reajustar
-            if (currentIndex >= totalSlides) { // Pasó el último slide y entró en el clon del primero
+            if (currentIndex >= totalSlides) {
                 currentIndex = 0;
                 updateCarouselPosition(false);
-            } else if (currentIndex < 0) { // Retrocedió del primer slide y entró en el clon del último
+            } else if (currentIndex < 0) {
                 currentIndex = totalSlides - 1;
                 updateCarouselPosition(false);
             }
         });
         
-        // Ajustar en caso de cambio de tamaño de ventana
         window.addEventListener('resize', () => {
-            updateCarouselPosition(false); // Sin transición para evitar saltos al redimensionar
+            updateCarouselPosition(false);
         });
 
-        // Posición inicial: mostrar el primer slide "real", pero con los clones previos
-        currentIndex = 0; // Asegurarse de que el índice empieza en el primer slide real
-        updateCarouselPosition(false); // Establecer la posición inicial sin transición
+        currentIndex = 0;
+        updateCarouselPosition(false);
     };
 
 
-    // --- 5. INICIALIZACIÓN DE AOS ---
+    // --- 5. INICIALIZACIÓN DE AOS (AJUSTADA) ---
     const setupAOS = () => {
         AOS.init({
-            duration: 1000,
+            duration: 600,  // <-- Más rápido
+            offset: 150,     // <-- Se activa antes
             once: true,
             mirror: false,
         });
