@@ -339,6 +339,7 @@ textarea { resize: vertical; }
     .comparison-grid, .numeros-grid, .proceso-grid { grid-template-columns: 1fr; }
     .numeros-image { order: -1; margin-bottom: 2rem; }
     .slide { min-width: calc(100% / 2); }
+
 }
 @media (max-width: 768px) {
     section { padding: 4rem 0; }
@@ -364,7 +365,8 @@ textarea { resize: vertical; }
     .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
     .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
     
-    .slide { min-width: 100%; }
+    .slide { min-width: 100%; padding: 0 0rem;}
+
     .proceso-image { display: none; }
     .comparison-grid { gap: 1rem; }
     .comparison-card { padding: 1.5rem; }
