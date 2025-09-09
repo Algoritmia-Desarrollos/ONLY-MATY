@@ -31,13 +31,14 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { 
     scroll-behavior: smooth; 
-    overflow-x: hidden; /* <-- Agregá esta línea */
-}body {
+    overflow-x: hidden;
+}
+body {
     background-color: var(--background);
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.8;
-    overflow-x: hidden; /* Esta línea ya estaba, y es bueno mantenerla */
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -92,6 +93,7 @@ h2 { font-size: 2.8rem; font-weight: 600; letter-spacing: -0.5px; }
 .nav-menu ul li a:hover { color: var(--primary-accent); }
 .hamburger-menu { display: none; cursor: pointer; z-index: 1001; }
 .hamburger-menu .bar { display: block; width: 25px; height: 2px; margin: 6px auto; background-color: var(--text-primary); transition: all 0.4s ease-in-out; }
+.mobile-cta { display: none; }
 
 /* --- 4. SECCIONES --- */
 
@@ -333,9 +335,6 @@ textarea { resize: vertical; }
     margin-top: 10px;
 }
 
-.mobile-cta{
-    display: none;
-}
 /* --- 6. RESPONSIVIDAD --- */
 @media (max-width: 992px) {
     h2 { font-size: 2.5rem; }
@@ -345,20 +344,10 @@ textarea { resize: vertical; }
     .slide { min-width: calc(100% / 2); }
 
     .mobile-cta a{
-            color: white !important;
-        }
-        .mobile-cta{
-    display: block;
-}
-        
+        color: white !important;
     }
-
-
-@media (max-width: 768px) {
-    section { padding: 4rem 0; }
-    h2 { font-size: 2.2rem; }
-    #hero h1 { font-size: 2.7rem !important; }
-    #hero .subtitle { font-size: 1rem !important; }
+    
+    /* --- CAMBIO: Reglas del menú movidas aquí --- */
     .nav-menu {
         display: block;
         position: fixed;
@@ -372,19 +361,31 @@ textarea { resize: vertical; }
     .nav-menu.active { right: 0; }
     .nav-menu ul { flex-direction: column; align-items: center; gap: 1.5rem; }
     .nav-menu li a { font-size: 1.3rem; }
+    
+    .mobile-cta { display: block; }
     .nav-cta { display: none; }
+
     .hamburger-menu { display: block; }
     .hamburger-menu.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
     .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-    
-    .slide { min-width: 100%; padding: 0 0rem;}
+}
+
+
+@media (max-width: 768px) {
+    section { padding: 4rem 0; }
+    h2 { font-size: 2.2rem; }
+    #hero h1 { font-size: 2.7rem !important; }
+    #hero .subtitle { font-size: 1rem !important; }
+
+    .slide { min-width: 100%; padding: 0;}
 
     .proceso-image { display: none; }
     .comparison-grid { gap: 1rem; }
     .comparison-card { padding: 1.5rem; }
     .form-container { padding: 0.5rem; }
 }
+
 @media (max-width: 480px) {
     #hero h1 { font-size: 2.2rem; }
     .footer-cta h2 { font-size: 2.5rem; }
@@ -478,6 +479,7 @@ textarea { resize: vertical; }
     height: 12px;
     border-radius: 50%;
     background-color: var(--border-color);
+    border: none;
     cursor: pointer;
     transition: background-color var(--transition-speed) ease;
 }
@@ -488,29 +490,27 @@ textarea { resize: vertical; }
 
 /* --- ESTILOS PARA EL LOGO DEL FOOTER --- */
 .footer-bottom .logo {
-    font-family: var(--font-logo); /* Usa la misma tipografía 'Great Vibes' */
-    font-size: 2.2rem;            /* Un tamaño ligeramente más pequeño para que encaje bien en el pie de página */
-    font-weight: normal;          /* Se asegura de que no esté en negrita */
-    color: var(--text-primary);   /* Usa el mismo color de texto que el logo principal */
-    text-decoration: none;        /* Quita el subrayado del enlace */
-    display: block;               /* Lo convierte en un bloque para poder centrarlo y darle margen */
-    margin-bottom: 1rem;          /* Añade un espacio debajo, antes del texto de copyright */
+    font-family: var(--font-logo);
+    font-size: 2.2rem;
+    font-weight: normal;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 1rem;
 }
 
 /* Formulario de Aplicación */
 #application-form {
-    min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
-    display: flex; /* Activa Flexbox */
-    align-items: center; /* Centra verticalmente */
-    justify-content: center; /* Centra horizontalmente */
-    padding: 2rem 0; /* Añade un poco de padding por si el contenido es muy alto en pantallas pequeñas */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
     background-color: var(--surface);
     position: relative;
     overflow: hidden;
 }
 
-
-/* Se cambió de '.navbar .logo' a '.logo' para que aplique en todos lados */
 .logo { 
     font-family: var(--font-logo);
     font-size: 2.5rem;
@@ -518,4 +518,3 @@ textarea { resize: vertical; }
     color: var(--text-primary); 
     text-decoration: none;
 }
-
