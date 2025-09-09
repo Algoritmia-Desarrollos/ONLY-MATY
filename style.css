@@ -368,7 +368,7 @@ textarea { resize: vertical; }
     .proceso-image { display: none; }
     .comparison-grid { gap: 1rem; }
     .comparison-card { padding: 1.5rem; }
-    .form-container { padding: 2rem; }
+    .form-container { padding: 0.5rem; }
 }
 @media (max-width: 480px) {
     #hero h1 { font-size: 2.2rem; }
@@ -481,3 +481,26 @@ textarea { resize: vertical; }
     display: block;               /* Lo convierte en un bloque para poder centrarlo y darle margen */
     margin-bottom: 1rem;          /* Añade un espacio debajo, antes del texto de copyright */
 }
+
+/* Formulario de Aplicación */
+#application-form {
+    min-height: 100vh; /* Ocupa el 100% de la altura de la pantalla */
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    padding: 2rem 0; /* Añade un poco de padding por si el contenido es muy alto en pantallas pequeñas */
+    background-color: var(--surface);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Se cambió de '.navbar .logo' a '.logo' para que aplique en todos lados */
+.logo { 
+    font-family: var(--font-logo);
+    font-size: 2.5rem;
+    font-weight: normal; 
+    color: var(--text-primary); 
+    text-decoration: none;
+}
+
