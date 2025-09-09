@@ -332,6 +332,10 @@ textarea { resize: vertical; }
 .footer-cta .btn{
     margin-top: 10px;
 }
+
+.mobile-cta{
+    display: none;
+}
 /* --- 6. RESPONSIVIDAD --- */
 @media (max-width: 992px) {
     h2 { font-size: 2.5rem; }
@@ -343,6 +347,9 @@ textarea { resize: vertical; }
     .mobile-cta a{
             color: white !important;
         }
+        .mobile-cta{
+    display: block;
+}
         
     }
 
