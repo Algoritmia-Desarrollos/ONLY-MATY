@@ -108,13 +108,13 @@
                             <textarea id="message" name="message" rows="5" placeholder="Ej: Aumentar mis ingresos, liberar mi tiempo, etc." required></textarea>
                         </div>
                         <div class="form-nav">
-<button type="button" class="btn-anterior btn-prev">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
-    <span>Anterior</span>
-</button>
+                            <button type="button" class="btn-anterior btn-prev">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
+                                <span>Anterior</span>
+                            </button>
                             <button type="submit" class="btn btn-primary btn-large">Enviar mi aplicación</button>
                         </div>
                     </div>
@@ -127,22 +127,25 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <script>
-        AOS.init();
-
-        // --- LÓGICA DEL FORMULARIO MULTI-PASO ---
         document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+
+            // --- LÓGICA DEL FORMULARIO MULTI-PASO ---
             const prevBtns = document.querySelectorAll(".btn-prev");
             const nextBtns = document.querySelectorAll(".btn-next");
             const formSteps = document.querySelectorAll(".form-step");
             const progressSteps = document.querySelectorAll(".progress-step");
-
             let currentStep = 0;
 
             nextBtns.forEach(btn => {
                 btn.addEventListener("click", () => {
-                    // Validar campos del paso actual
-                    const inputs = [...formSteps[currentStep].querySelectorAll("input, textarea")];
-                    const isValid = inputs.every(input => input.reportValidity());
+                    const inputs = [...formSteps[currentStep].querySelectorAll("input[required], textarea[required]")];
+                    let isValid = true;
+                    inputs.forEach(input => {
+                        if (!input.reportValidity()) {
+                            isValid = false;
+                        }
+                    });
                     
                     if (isValid) {
                         currentStep++;
@@ -167,36 +170,52 @@
                     step.classList.toggle('active', idx <= currentStep);
                 });
             }
-
             updateFormSteps();
+
+            // --- LÓGICA DE ENVÍO CON EMAILJS (MÉTODO MANUAL Y MÁS SEGURO) ---
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Enviando...';
+
+                    // 1. Recolectar los datos manualmente
+                    const templateParams = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        age: document.getElementById('age').value,
+                        social_media: document.getElementById('social_media').value,
+                        onlyfans_link: document.getElementById('onlyfans_link').value,
+                        agency_experience: document.querySelector('input[name="agency_experience"]:checked') ? document.querySelector('input[name="agency_experience"]:checked').value : 'No respondido',
+                        explicit_content: document.querySelector('input[name="explicit_content"]:checked') ? document.querySelector('input[name="explicit_content"]:checked').value : 'No respondido',
+                        promotion_method: document.querySelector('input[name="promotion_method"]:checked') ? document.querySelector('input[name="promotion_method"]:checked').value : 'No respondido',
+                        message: document.getElementById('message').value
+                    };
+
+                    // Para depuración: puedes ver los datos en la consola del navegador (F12)
+                    console.log("Datos a enviar:", templateParams);
+
+                    const serviceID = 'maty-only';
+                    const templateID = 'template_y4w9qwr';
+                    const publicKey = '3bkxlvg4klx2DB5rd';
+
+                    // 2. Usar emailjs.send en lugar de sendForm
+                    emailjs.send(serviceID, templateID, templateParams, publicKey)
+                        .then((response) => {
+                            console.log('ÉXITO!', response.status, response.text);
+                            window.location.href = 'gracias.html';
+                        }, (err) => {
+                            console.error('FALLÓ EL ENVÍO...', err);
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Error al Enviar';
+                            alert('Ocurrió un error al enviar tu aplicación. Por favor, intentá de nuevo.\n\nError: ' + JSON.stringify(err));
+                        });
+                });
+            }
         });
-
-        // --- LÓGICA DE ENVÍO CON EMAILJS ---
-        (function(){
-            emailjs.init('3bkxlvg4klx2DB5rd');
-        })();
-
-        window.onload = function() {
-            document.getElementById('contact-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const submitButton = this.querySelector('button[type="submit"]');
-                submitButton.disabled = true;
-                submitButton.textContent = 'Enviando...';
-
-                const serviceID = 'maty-only';
-                const templateID = 'template_y4w9qwr';
-
-                emailjs.sendForm(serviceID, templateID, this)
-                    .then(() => {
-                        window.location.href = 'gracias.html';
-                    }, (err) => {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Error al Enviar';
-                        alert('Ocurrió un error al enviar tu aplicación. Por favor, intentá de nuevo.\n\nError: ' + JSON.stringify(err));
-                    });
-            });
-        }
     </script>
 </body>
 </html>
