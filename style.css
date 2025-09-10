@@ -628,7 +628,12 @@ textarea { resize: vertical; }
 }
 
 .radio-label input[type="radio"]:checked + span::after {
-    transform: translateY(-50%) scale(1);
+    /* Mueve el punto -50% de su propio tamaño en ambos ejes */
+    transform: translate(20%, -50%) scale(1); 
+    
+    /* Nota: Esto asume que el pseudo-elemento ::after ya está posicionado 
+       con top: 50%; y left: 50%; para llevar su esquina superior izquierda
+       al centro del contenedor. */
 }
 
 /* Ocultar el último fieldset que es solo para el botón */
@@ -774,3 +779,29 @@ textarea { resize: vertical; }
     }
 }
 
+
+
+/* --- Botón Anterior con Icono --- */
+.btn-anterior {
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Centra verticalmente el icono y el texto */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    gap: 8px; /* Espacio entre el icono y el texto */
+    
+    /* Estilos adicionales para que coincida con tu diseño */
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 12px 28px;
+    border-radius: var(--border-radius-small);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-anterior:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
