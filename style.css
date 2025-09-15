@@ -805,3 +805,32 @@ textarea { resize: vertical; }
     background-color: var(--border-color);
     color: var(--text-primary);
 }
+
+/* --- AJUSTES FINALES PARA EL LOGO --- */
+.navbar .logo img {
+    height: 45px; /* Altura del logo en la barra de navegación */
+    width: auto;
+    transition: height 0.3s ease;
+}
+.navbar.scrolled .logo img {
+    height: 40px; /* Altura del logo al hacer scroll */
+}
+.footer-bottom .logo img {
+    height: 40px; /* Altura del logo en el pie de página */
+    width: auto;
+    margin: 0 auto 1rem auto; /* Centra el logo en el pie de página */
+}
+/* Estilo para el logo en la página de aplicar */
+#application-form .logo img {
+    height: 50px;
+    width: auto;
+    margin: 0 auto;
+}
+
+/* --- ESTILOS DEL LOGO --- */
+/* Se eliminan los estilos de fuente y se ajusta para la imagen */
+.navbar .logo, .footer-bottom .logo { 
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1; /* Asegura que el contenedor no tenga espacio extra */
+}
