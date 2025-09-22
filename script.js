@@ -66,26 +66,39 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slides.length === 0) return;
 
         let currentIndex = 0;
-        let cloneCount = 0;
         let isMoving = false;
         const totalSlides = slides.length;
 
-        for (let i = totalSlides - 1; i >= totalSlides - 3; i--) {
-            track.insertBefore(slides[i].cloneNode(true), slides[0]);
-            cloneCount++;
-        }
-        for (let i = 0; i < 3; i++) {
-            track.appendChild(slides[i].cloneNode(true));
-            cloneCount++;
-        }
+        const getSlidesToShow = () => {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 992) return 2;
+            return 3;
+        };
 
-        const allVisibleSlides = Array.from(track.children);
+        let slidesToShow = getSlidesToShow();
+
+        const setupClones = () => {
+            track.innerHTML = '';
+            slides.forEach(slide => track.appendChild(slide.cloneNode(true)));
+
+            for (let i = slides.length - 1; i >= slides.length - slidesToShow; i--) {
+                const clone = slides[i].cloneNode(true);
+                clone.classList.add('clone');
+                track.insertBefore(clone, track.firstChild);
+            }
+            for (let i = 0; i < slidesToShow; i++) {
+                const clone = slides[i].cloneNode(true);
+                clone.classList.add('clone');
+                track.appendChild(clone);
+            }
+        };
 
         const getSlideFullWidth = () => {
-            if (!allVisibleSlides[0]) return 0;
-            const slideStyle = getComputedStyle(allVisibleSlides[0]);
+            const firstSlide = track.querySelector('.slide');
+            if (!firstSlide) return 0;
+            const slideStyle = getComputedStyle(firstSlide);
             const margin = parseInt(slideStyle.marginRight) || 0;
-            return allVisibleSlides[0].offsetWidth + margin;
+            return firstSlide.offsetWidth + margin;
         };
 
         const updatePagination = () => {
@@ -107,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const updateCarouselPosition = (withTransition = true) => {
-            const currentPosition = currentIndex + 3;
+            const currentPosition = currentIndex + slidesToShow;
             track.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
             track.style.transform = `translateX(-${currentPosition * getSlideFullWidth()}px)`;
             updatePagination();
@@ -141,14 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        window.addEventListener('resize', () => {
+        const init = () => {
+            slidesToShow = getSlidesToShow();
+            setupClones();
             updateCarouselPosition(false);
-        });
+        };
+        
+        window.addEventListener('resize', init);
 
-        currentIndex = 0;
-        updateCarouselPosition(false);
+        init();
     };
-
 
     // --- 5. INICIALIZACIÓN DE AOS (AJUSTADA) ---
     const setupAOS = () => {
