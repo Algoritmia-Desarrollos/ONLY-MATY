@@ -53,10 +53,23 @@
                 
                 <form id="contact-form" novalidate>
                     <div class="progress-bar">
-                        <div class="progress-step active" data-title="Datos">1</div>
-                        <div class="progress-step" data-title="Perfiles">2</div>
-                        <div class="progress-step" data-title="Detalles">3</div>
-                        <div class="progress-step" data-title="Metas">4</div>
+                        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                        <div class="progress-step active" data-title="Datos">
+                            <div class="progress-step-number">1</div>
+                            <span class="progress-step-title">Datos</span>
+                        </div>
+                        <div class="progress-step" data-title="Perfiles">
+                            <div class="progress-step-number">2</div>
+                            <span class="progress-step-title">Perfiles</span>
+                        </div>
+                        <div class="progress-step" data-title="Detalles">
+                            <div class="progress-step-number">3</div>
+                            <span class="progress-step-title">Detalles</span>
+                        </div>
+                        <div class="progress-step" data-title="Metas">
+                            <div class="progress-step-number">4</div>
+                            <span class="progress-step-title">Metas</span>
+                        </div>
                     </div>
 
                     <div class="form-step active">
@@ -172,16 +185,34 @@
             const nextBtns = document.querySelectorAll(".btn-next");
             const formSteps = document.querySelectorAll(".form-step");
             const progressSteps = document.querySelectorAll(".progress-step");
+            const progressFill = document.getElementById("progress-bar-fill");
             
             const updateProgressBar = (stepIndex) => {
+                const totalSteps = progressSteps.length;
+                const fillPercent = totalSteps > 1 ? (stepIndex / (totalSteps - 1)) * 100 : 0;
+                if (progressFill) {
+                    progressFill.style.width = fillPercent + "%";
+                }
+
                 progressSteps.forEach((step, idx) => {
-                    if (idx <= stepIndex) {
-                        step.classList.add("active");
-                    } else {
+                    const numberEl = step.querySelector(".progress-step-number");
+                    if (idx < stepIndex) {
+                        step.classList.add("completed");
                         step.classList.remove("active");
+                        if (numberEl) numberEl.innerHTML = "&#10003;";
+                    } else if (idx === stepIndex) {
+                        step.classList.add("active");
+                        step.classList.remove("completed");
+                        if (numberEl) numberEl.textContent = idx + 1;
+                    } else {
+                        step.classList.remove("active", "completed");
+                        if (numberEl) numberEl.textContent = idx + 1;
                     }
                 });
             };
+
+            // Inicializar posición de barra
+            updateProgressBar(0);
 
             nextBtns.forEach(btn => {
                 btn.addEventListener("click", () => {
