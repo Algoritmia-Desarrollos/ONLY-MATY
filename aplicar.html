@@ -148,18 +148,12 @@
     </section>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             AOS.init();
-            
-            // Inicializar EmailJS si está disponible
-            if (typeof emailjs !== 'undefined') {
-                emailjs.init("3bkxlvg4klx2DB5rd");
-            }
 
             const phoneInput = document.querySelector("#phone");
             const phoneError = document.querySelector("#phone-error");
@@ -263,7 +257,7 @@
                         message: document.getElementById('message').value
                     };
 
-                    // Intento 1: Enviar al backend PHP nativo de Hostinger (send_mail.php)
+                    // Enviar 100% mediante backend PHP nativo de Hostinger (send_mail.php) con SMTP de Hostinger
                     fetch('send_mail.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -274,26 +268,14 @@
                         if (data.status === 'success') {
                             window.location.href = 'gracias.html';
                         } else {
-                            throw new Error(data.message || 'Error en PHP');
+                            throw new Error(data.message || 'Error en envío PHP');
                         }
                     })
                     .catch(err => {
-                        console.warn('Backend PHP falló o no está disponible localmente, probando EmailJS...', err);
-                        // Intento 2: Fallback con EmailJS
-                        if (typeof emailjs !== 'undefined') {
-                            emailjs.send('maty-only', 'template_y4w9qwr', payload, '3bkxlvg4klx2DB5rd')
-                                .then(() => {
-                                    window.location.href = 'gracias.html';
-                                }, (emailErr) => {
-                                    submitButton.disabled = false;
-                                    submitButton.textContent = 'Error al Enviar';
-                                    alert('Ocurrió un error al enviar tu aplicación. Por favor, intentá de nuevo.');
-                                });
-                        } else {
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'Error al Enviar';
-                            alert('Ocurrió un error al enviar tu aplicación.');
-                        }
+                        console.error('Error al enviar:', err);
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Error al Enviar';
+                        alert('Ocurrió un error al enviar tu aplicación. Por favor, asegúrate de estar ejecutando la web desde el servidor.');
                     });
                 });
             }
