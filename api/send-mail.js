@@ -63,6 +63,6 @@ module.exports = async (req, res) => {
     return res.status(200).json({ status: 'success' });
   } catch (err) {
     console.error('SMTP error:', err && err.message);
-    return res.status(500).json({ status: 'error', message: 'No se pudo enviar el correo' });
+    return res.status(500).json({ status: 'error', message: 'No se pudo enviar el correo', code: (err && (err.code || err.responseCode)) || null });
   }
 };
