@@ -288,8 +288,8 @@
                         message: document.getElementById('message').value
                     };
 
-                    // Enviar 100% mediante backend PHP nativo de Hostinger (send_mail.php) con SMTP de Hostinger
-                    fetch('send_mail.php', {
+                    // Envío por la función de Vercel /api/send-mail (SMTP de Hostinger, credenciales en variables de entorno)
+                    fetch('/api/send-mail', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -306,7 +306,7 @@
                         console.error('Error al enviar:', err);
                         submitButton.disabled = false;
                         submitButton.textContent = 'Error al Enviar';
-                        alert('Ocurrió un error al enviar tu aplicación. Por favor, asegúrate de estar ejecutando la web desde el servidor.');
+                        alert('Ocurrió un error al enviar tu aplicación. Probá de nuevo en unos minutos o escribinos a luxevibe.adm@gmail.com.');
                     });
                 });
             }
